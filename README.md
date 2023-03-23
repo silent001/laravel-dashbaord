@@ -7,6 +7,58 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Working with this repository
+In order to get this repository to function as intended you will need to run the following commands
+
+```bash
+docker run --rm \
+    --pull=always \
+    -v "$(pwd)":/opt \
+    -w /opt \
+    laravelsail/php82-composer:latest \
+    bash -c "composer update && composer install"
+```
+This will install the required packages using composer. Once composer is done you will need to create the `.env` file using the copy provided as `.env.example`. To do this simply run:
+```bash
+cp .env.example .env && nano .env
+```
+Once you have updated the required variables for the application to run you can then go ahead and run:
+```bash
+./vendor/bin/sail up -d
+```
+If you don't want to be repeatedly typing `./vendor/bin/sail` to execute Sail commands, you may wish to configure a shell alias that allows you to execute Sail's commands more easily see [Configuring A Shell Alias](#configuring-a-shell-alias). The remainder of this documentation's will assume that you have configured this alias.
+
+Once the application is up you will need to create a new `APP_KEY`. To do this run the following command:
+```bash
+sail artisan key:generate
+```
+
+You will also need to migrate the databases as well as seed them:
+```bash
+sail artisan migrate:refresh --seed
+```
+
+## Configuring A Shell Alias
+By default, Sail commands are invoked using the vendor/bin/sail script that is included with all new Laravel applications:
+
+```bash
+./vendor/bin/sail up
+```
+
+However, instead of repeatedly typing vendor/bin/sail to execute Sail commands, you may wish to configure a shell alias that allows you to execute Sail's commands more easily:
+
+```bash
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
+
+To make sure this is always available, you may add this to your shell configuration file in your home directory, such as ~/.zshrc or ~/.bashrc, and then restart your shell.
+
+Once the shell alias has been configured, you may execute Sail commands by simply typing sail.
+
+```bash
+sail up
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
