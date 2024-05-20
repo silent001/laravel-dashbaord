@@ -4,7 +4,7 @@
 
 ### Setup project using sail
 ```shell
-curl -s "https://laravel.build/laravel-dashboard?with=mysql,mailtrap" | bash
+curl -s "https://laravel.build/laravel-dashboard?with=mysql,mailpit&devcontainer" | bash
 ```
 
 ### Create bash alias
